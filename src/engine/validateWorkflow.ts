@@ -1,4 +1,4 @@
-import { Node, Edge } from "reactflow";
+import type { Node, Edge } from "reactflow";
 
 export function validateWorkflow(nodes: Node[], edges: Edge[]) {
   const errors: string[] = [];
@@ -29,8 +29,8 @@ export function validateWorkflow(nodes: Node[], edges: Edge[]) {
   });
 
   // Rule 3: Detect circular dependencies
-  const visited = new Set();
-  const stack = new Set();
+  const visited = new Set<string>();
+  const stack = new Set<string>();
 
   function dfs(nodeId: string): boolean {
     if (stack.has(nodeId)) return true;

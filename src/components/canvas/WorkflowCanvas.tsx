@@ -32,7 +32,7 @@ export default function WorkflowCanvas() {
       data: { label: `${type} node` },
     };
 
-    setNodes((nds) => [...nds, newNode]);
+    setNodes([...nodes, newNode]);
   };
 
   return (

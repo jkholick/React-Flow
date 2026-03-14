@@ -1,10 +1,17 @@
-export const nodeSchemas = {
+export type NodeField = {
+  name: string;
+  label: string;
+  type: "text" | "textarea" | "select" | "cron";
+  options?: string[];
+};
+
+export const nodeSchemas: Record<string, NodeField[]> = {
   "Trigger Node": [
     {
       name: "eventType",
       label: "Event Type",
       type: "select",
-      options: ["Form Submit", "Webhook", "Schedule"],
+      options: ["Webhook", "Manual", "Schedule"],
     },
     {
       name: "source",
@@ -20,34 +27,22 @@ export const nodeSchemas = {
 
   "Action Node": [
     {
-      name: "apiEndpoint",
-      label: "API Endpoint",
+      name: "actionType",
+      label: "Action Type",
       type: "text",
     },
     {
-      name: "method",
-      label: "HTTP Method",
-      type: "select",
-      options: ["GET", "POST", "PUT", "DELETE"],
-    },
-    {
-      name: "payload",
-      label: "Payload",
-      type: "textarea",
+      name: "target",
+      label: "Target",
+      type: "text",
     },
   ],
 
   "Condition Node": [
     {
-      name: "variable",
-      label: "Variable",
+      name: "condition",
+      label: "Condition",
       type: "text",
-    },
-    {
-      name: "operator",
-      label: "Operator",
-      type: "select",
-      options: ["==", "!=", ">", "<"],
     },
     {
       name: "value",

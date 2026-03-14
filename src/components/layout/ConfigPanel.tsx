@@ -1,5 +1,5 @@
 import { useWorkflowStore } from "../../store/workflowStore";
-import { nodeSchemas } from "../../config/nodeSchemas";
+import { nodeSchemas, type NodeField } from "../../config/nodeSchemas";
 
 export default function ConfigPanel() {
   const selectedNode = useWorkflowStore((state) => state.selectedNode);
@@ -15,7 +15,8 @@ export default function ConfigPanel() {
     );
   }
 
-  const schema = nodeSchemas[selectedNode.data.label];
+  const schema =
+    nodeSchemas[selectedNode?.data?.label as keyof typeof nodeSchemas];
 
   const handleChange = (fieldName: string, value: string) => {
     const updatedNodes = nodes.map((node) => {
@@ -40,7 +41,7 @@ export default function ConfigPanel() {
     <div className="config-panel">
       <h3>{selectedNode.data.label}</h3>
 
-      {schema?.map((field) => {
+      {schema?.map((field: NodeField) => {
         const value = selectedNode.data.config?.[field.name] || "";
 
         return (
@@ -69,7 +70,7 @@ export default function ConfigPanel() {
               >
                 <option value="">Select</option>
 
-                {field.options?.map((option: string) => (
+                {field.options?.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>

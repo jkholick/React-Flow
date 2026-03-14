@@ -1,5 +1,7 @@
 import { create } from "zustand";
-import { Node, Edge } from "reactflow";
+import type { Node, Edge } from "reactflow";
+
+type NodeType = "Trigger Node" | "Action Node" | "Condition Node";
 
 interface WorkflowState {
   nodes: Node[];
@@ -11,7 +13,7 @@ interface WorkflowState {
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
 
-  addNode: (type: string) => void;
+  addNode: (type: NodeType) => void;
 
   selectedNode: Node | null;
   setSelectedNode: (node: Node | null) => void;
@@ -25,7 +27,6 @@ interface WorkflowState {
 
 export const useWorkflowStore = create<WorkflowState>((set, get) => ({
   nodes: [],
-
   edges: [],
 
   past: [],
@@ -54,7 +55,7 @@ export const useWorkflowStore = create<WorkflowState>((set, get) => ({
   addNode: (type) => {
     const { nodes } = get();
 
-    const newNode = {
+    const newNode: Node = {
       id: crypto.randomUUID(),
       type: "default",
       position: {
@@ -63,7 +64,7 @@ export const useWorkflowStore = create<WorkflowState>((set, get) => ({
       },
       data: {
         label: type,
-        config: {}, // configuration stored here
+        config: {},
       },
     };
 

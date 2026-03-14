@@ -7,6 +7,8 @@ import ReactFlow, {
   useReactFlow,
 } from "reactflow";
 
+import type { Node, NodeChange, EdgeChange, Connection } from "reactflow";
+
 import "reactflow/dist/style.css";
 
 import { useWorkflowStore } from "../../store/workflowStore";
@@ -21,36 +23,36 @@ export default function Canvas() {
   const { screenToFlowPosition } = useReactFlow();
 
   // Node click → open config panel
-  const onNodeClick = (_, node) => {
+  const onNodeClick = (_: unknown, node: Node) => {
     setSelectedNode(node);
   };
 
   // Node movement / dragging
-  const onNodesChange = (changes) => {
+  const onNodesChange = (changes: NodeChange[]) => {
     const updatedNodes = applyNodeChanges(changes, nodes);
     setNodes(updatedNodes);
   };
 
   // Edge updates
-  const onEdgesChange = (changes) => {
+  const onEdgesChange = (changes: EdgeChange[]) => {
     const updatedEdges = applyEdgeChanges(changes, edges);
     setEdges(updatedEdges);
   };
 
   // Connecting nodes
-  const onConnect = (connection) => {
+  const onConnect = (connection: Connection) => {
     const updatedEdges = addEdge(connection, edges);
     setEdges(updatedEdges);
   };
 
   // Allow dropping nodes onto canvas
-  const onDragOver = (event) => {
+  const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   };
 
   // Handle node drop
-  const onDrop = (event) => {
+  const onDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
     const type = event.dataTransfer.getData("application/reactflow");
@@ -62,7 +64,7 @@ export default function Canvas() {
       y: event.clientY,
     });
 
-    let nodeData;
+    let nodeData: Record<string, unknown>;
 
     if (type === "trigger") {
       nodeData = {
@@ -83,9 +85,11 @@ export default function Canvas() {
         condition: "",
         value: "",
       };
+    } else {
+      return;
     }
 
-    const newNode = {
+    const newNode: Node = {
       id: `${Date.now()}`,
       type: "default",
       position,

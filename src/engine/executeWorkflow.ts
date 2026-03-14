@@ -1,4 +1,4 @@
-import { Node, Edge } from "reactflow";
+import type { Node, Edge } from "reactflow";
 
 export async function executeWorkflow(nodes: Node[], edges: Edge[]) {
   const logs: string[] = [];
